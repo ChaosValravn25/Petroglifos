@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+import '../widgets/info_card.dart';
+import '../widgets/primary_button.dart';
+
+import 'home_page.dart';
+
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
 
@@ -8,29 +14,21 @@ class PerfilPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFD7C2A3),
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF8D6E63),
-        foregroundColor: Colors.white,
-        title: const Text(
-          "Mi Perfil",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: const CustomAppBar(
+        title: "Mi Perfil",
       ),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             const CircleAvatar(
               radius: 60,
               backgroundColor: Color(0xFF8D6E63),
               child: Icon(
                 Icons.person,
-                color: Colors.white,
                 size: 70,
+                color: Colors.white,
               ),
             ),
 
@@ -56,79 +54,67 @@ class PerfilPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.email),
-                title: const Text("Correo"),
-                subtitle: const Text("usuario@email.com"),
-              ),
+            const InfoCard(
+              title: "Correo",
+              value: "usuario@email.com",
+              icon: Icons.email,
             ),
 
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.badge),
-                title: const Text("Rol"),
-                subtitle: const Text("Investigador"),
-              ),
+            const InfoCard(
+              title: "Rol",
+              value: "Investigador",
+              icon: Icons.badge,
             ),
 
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.location_on),
-                title: const Text("Región"),
-                subtitle: const Text("Región del Maule"),
-              ),
+            const InfoCard(
+              title: "Región",
+              value: "Región del Maule",
+              icon: Icons.location_on,
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 30),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Editar perfil
-                },
-                icon: const Icon(Icons.edit),
-                label: const Text(
-                  "Editar Perfil",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            PrimaryButton(
+              text: "Editar Perfil",
+              icon: Icons.edit,
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Función disponible próximamente."),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 15),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Mis reportes
-                },
-                icon: const Icon(Icons.assignment),
-                label: const Text(
-                  "Mis Reportes",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            PrimaryButton(
+              text: "Mis Reportes",
+              icon: Icons.assignment,
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Función disponible próximamente."),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 15),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  // Cerrar sesión
-                },
-                icon: const Icon(Icons.logout),
-                label: const Text(
-                  "Cerrar Sesión",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            PrimaryButton(
+              text: "Cerrar Sesión",
+              icon: Icons.logout,
+              outlined: true,
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const HomePage(),
+                  ),
+                  (route) => false,
+                );
+              },
             ),
           ],
         ),

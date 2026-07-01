@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+import '../widgets/primary_button.dart';
+
 class ReportarPage extends StatelessWidget {
   const ReportarPage({super.key});
 
@@ -8,13 +11,8 @@ class ReportarPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFD7C2A3),
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF8D6E63),
-        foregroundColor: Colors.white,
-        title: const Text(
-          "Reportar Petroglifo",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+      appBar: const CustomAppBar(
+        title: "Reportar Petroglifo",
       ),
 
       body: SingleChildScrollView(
@@ -22,8 +20,7 @@ class ReportarPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // Imagen
+            // Espacio para la fotografía
             Center(
               child: Container(
                 width: double.infinity,
@@ -55,7 +52,7 @@ class ReportarPage extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: "Nombre del Petroglifo",
                 border: OutlineInputBorder(),
@@ -64,7 +61,7 @@ class ReportarPage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: "Sitio Arqueológico",
                 border: OutlineInputBorder(),
@@ -73,7 +70,7 @@ class ReportarPage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: "Comuna",
                 border: OutlineInputBorder(),
@@ -83,6 +80,10 @@ class ReportarPage extends StatelessWidget {
             const SizedBox(height: 15),
 
             DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: "Estado de Conservación",
+                border: OutlineInputBorder(),
+              ),
               items: const [
                 DropdownMenuItem(
                   value: "Bueno",
@@ -97,18 +98,14 @@ class ReportarPage extends StatelessWidget {
                   child: Text("Dañado"),
                 ),
               ],
-              onChanged: null,
-              decoration: const InputDecoration(
-                labelText: "Estado de Conservación",
-                border: OutlineInputBorder(),
-              ),
+              onChanged: (value) {},
             ),
 
             const SizedBox(height: 15),
 
-            TextField(
+            const TextField(
               maxLines: 5,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Descripción",
                 border: OutlineInputBorder(),
               ),
@@ -116,8 +113,8 @@ class ReportarPage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            TextField(
-              decoration: const InputDecoration(
+            const TextField(
+              decoration: InputDecoration(
                 labelText: "Coordenadas",
                 hintText: "-35.4262, -71.6554",
                 border: OutlineInputBorder(),
@@ -126,36 +123,34 @@ class ReportarPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Enviar reporte
-                },
-                icon: const Icon(Icons.send),
-                label: const Text(
-                  "Enviar Reporte",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            PrimaryButton(
+              text: "Enviar Reporte",
+              icon: Icons.send,
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Reporte enviado correctamente"),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
+                });
+              },
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.cancel),
-                label: const Text(
-                  "Cancelar",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+            PrimaryButton(
+              text: "Cancelar",
+              icon: Icons.cancel,
+              outlined: true,
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ],
         ),

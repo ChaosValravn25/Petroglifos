@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+import '../widgets/search_bar_widget.dart';
+import '../widgets/primary_button.dart';
+
+import 'login_page.dart';
+import 'petroglifos_page.dart';
+import 'sitios_page.dart';
+import 'reportar_page.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -8,121 +17,75 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFD7C2A3),
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF8D6E63),
-        foregroundColor: Colors.white,
-        elevation: 2,
-        title: const Text(
-          'Petroglifos Maule',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          TextButton.icon(
-            onPressed: () {
-              // Ir a Login
-            },
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
+      appBar: CustomAppBar(
+        title: "Petroglifos Maule",
+        showLogin: true,
+        onLoginPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const LoginPage(),
             ),
-            label: const Text(
-              "Login",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-        ],
+          );
+        },
       ),
 
       body: Center(
-        child: SizedBox(
-          width: 340,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 20,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SearchBarWidget(
+                hintText: "Buscar",
+              ),
 
-              // Barra de búsqueda
-              TextField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: "Buscar",
-                  prefixIcon: const Icon(Icons.search),
+              const SizedBox(height: 40),
 
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.filter_alt_outlined),
-                        SizedBox(width: 5),
-                        Text("Filtros"),
-                      ],
+              PrimaryButton(
+                text: "Petroglifos",
+                icon: Icons.landscape,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PetroglifosPage(),
                     ),
-                  ),
-
-                  filled: true,
-                  fillColor: Colors.white,
-
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
+                  );
+                },
               ),
 
-              const SizedBox(height: 35),
+              const SizedBox(height: 20),
 
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Abrir lista de petroglifos
-                  },
-                  child: const Text(
-                    "Petroglifos",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
+              PrimaryButton(
+                text: "Sitios",
+                icon: Icons.location_on,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const SitiosPage(),
+                    ),
+                  );
+                },
               ),
 
-              const SizedBox(height: 18),
+              const SizedBox(height: 20),
 
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Abrir lista de sitios
-                  },
-                  child: const Text(
-                    "Sitios",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 18),
-
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Abrir formulario de reporte
-                  },
-                  child: const Text(
-                    "Reportar Petroglifo",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
+              PrimaryButton(
+                text: "Reportar Petroglifo",
+                icon: Icons.add_location_alt,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ReportarPage(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

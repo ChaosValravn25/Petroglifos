@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+import '../widgets/info_card.dart';
+
+import 'petroglifo_detail_page.dart';
+
 class SitioDetailPage extends StatelessWidget {
   const SitioDetailPage({super.key});
 
@@ -8,13 +13,8 @@ class SitioDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFD7C2A3),
 
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF8D6E63),
-        foregroundColor: Colors.white,
-        title: const Text(
-          "Detalle del Sitio",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+      appBar: const CustomAppBar(
+        title: "Detalle del Sitio",
       ),
 
       body: SingleChildScrollView(
@@ -22,8 +22,7 @@ class SitioDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // Imagen principal
+            // Imagen del sitio
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Container(
@@ -50,29 +49,34 @@ class SitioDetailPage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            _infoCard(
-              "Comuna",
-              "Talca",
+            const InfoCard(
+              title: "Comuna",
+              value: "Talca",
+              icon: Icons.location_city,
             ),
 
-            _infoCard(
-              "Región",
-              "Región del Maule",
+            const InfoCard(
+              title: "Región",
+              value: "Región del Maule",
+              icon: Icons.public,
             ),
 
-            _infoCard(
-              "Cantidad de Petroglifos",
-              "12",
+            const InfoCard(
+              title: "Cantidad de Petroglifos",
+              value: "12",
+              icon: Icons.landscape,
             ),
 
-            _infoCard(
-              "Estado del Sitio",
-              "Protegido",
+            const InfoCard(
+              title: "Estado del Sitio",
+              value: "Protegido",
+              icon: Icons.verified,
             ),
 
-            _infoCard(
-              "Coordenadas",
-              "-35.4262, -71.6554",
+            const InfoCard(
+              title: "Coordenadas",
+              value: "-35.4262, -71.6554",
+              icon: Icons.place,
             ),
 
             const SizedBox(height: 20),
@@ -111,47 +115,95 @@ class SitioDetailPage extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            _petroglifoItem("Petroglifo Piedra del Sol"),
-            _petroglifoItem("Petroglifo El Cóndor"),
-            _petroglifoItem("Petroglifo Las Manos"),
-            _petroglifoItem("Petroglifo Río Claro"),
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFF8D6E63),
+                  child: Icon(
+                    Icons.landscape,
+                    color: Colors.white,
+                  ),
+                ),
+                title: const Text("Petroglifo Piedra del Sol"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PetroglifoDetailPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFF8D6E63),
+                  child: Icon(
+                    Icons.landscape,
+                    color: Colors.white,
+                  ),
+                ),
+                title: const Text("Petroglifo El Cóndor"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PetroglifoDetailPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFF8D6E63),
+                  child: Icon(
+                    Icons.landscape,
+                    color: Colors.white,
+                  ),
+                ),
+                title: const Text("Petroglifo Las Manos"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PetroglifoDetailPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Card(
+              child: ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Color(0xFF8D6E63),
+                  child: Icon(
+                    Icons.landscape,
+                    color: Colors.white,
+                  ),
+                ),
+                title: const Text("Petroglifo Río Claro"),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PetroglifoDetailPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  static Widget _infoCard(String titulo, String valor) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        title: Text(
-          titulo,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(valor),
-      ),
-    );
-  }
-
-  static Widget _petroglifoItem(String nombre) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        leading: const CircleAvatar(
-          backgroundColor: Color(0xFF8D6E63),
-          child: Icon(
-            Icons.landscape,
-            color: Colors.white,
-          ),
-        ),
-        title: Text(nombre),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          // Ir al detalle del petroglifo
-        },
       ),
     );
   }
