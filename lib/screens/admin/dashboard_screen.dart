@@ -134,7 +134,7 @@ class DashboardScreen extends StatelessWidget {
               color: Colors.teal,
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const ReportesScreen())),
-              onTap: () => _mostrarReportesDialog(context),
+              
             ),
 
             const SizedBox(height: 80),
