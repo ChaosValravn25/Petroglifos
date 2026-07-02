@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'theme.dart';
 import 'services/database_service.dart';
+import 'services/connectivity_service.dart';
 import 'screens/public/home_screen.dart';
 import 'screens/public/catalog_screen.dart';
 import 'screens/public/detail_screen.dart';
@@ -14,7 +15,7 @@ import 'screens/admin/petroglifo_form.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseService.instance.init(); // ← Inicializa Hive
+  await DatabaseService.instance.init();
   runApp(const PetroglifosMauleApp());
 }
 
@@ -27,57 +28,29 @@ class PetroglifosMauleApp extends StatelessWidget {
       initialLocation: '/',
       routes: [
 
-        // ══════════════════════════════════════
-        // VISOR PÚBLICO — con NavigationBar inferior
-        // ══════════════════════════════════════
+        // ── Visor público con NavigationBar inferior ──
         ShellRoute(
           builder: (context, state, child) => _PublicShell(child: child),
           routes: [
-            GoRoute(
-              path: '/',
-              builder: (context, state) => const PublicHomeScreen(),
-            ),
-            GoRoute(
-              path: '/catalog',
-              builder: (context, state) => const CatalogScreen(),
-            ),
+            GoRoute(path: '/',        builder: (_, __) => const PublicHomeScreen()),
+            GoRoute(path: '/catalog', builder: (_, __) => const CatalogScreen()),
           ],
         ),
 
-        // Detalle fuera del shell (usa SliverAppBar propio)
+        // Detalle (fuera del shell → tiene su propio SliverAppBar)
         GoRoute(
           path: '/detail/:id',
           builder: (context, state) =>
               DetailScreen(petroId: state.pathParameters['id']!),
         ),
 
-        // ══════════════════════════════════════
-        // ÁREA ADMINISTRATIVA
-        // ══════════════════════════════════════
-        GoRoute(
-          path: '/login',
-          builder: (context, state) => const LoginScreen(),
-        ),
-        GoRoute(
-          path: '/dashboard',
-          builder: (context, state) => const DashboardScreen(),
-        ),
-        GoRoute(
-          path: '/reportes',
-          builder: (context, state) => const ReportesScreen(),
-        ),
-        GoRoute(
-          path: '/sitios',
-          builder: (context, state) => const SitiosScreen(),
-        ),
-        GoRoute(
-          path: '/usuarios',
-          builder: (context, state) => const UsuariosScreen(),
-        ),
-        GoRoute(
-          path: '/nueva-ficha',
-          builder: (context, state) => const PetroglifoForm(),
-        ),
+        // ── Área administrativa ───────────────────────
+        GoRoute(path: '/login',      builder: (_, __) => const LoginScreen()),
+        GoRoute(path: '/dashboard',  builder: (_, __) => const DashboardScreen()),
+        GoRoute(path: '/reportes',   builder: (_, __) => const ReportesScreen()),
+        GoRoute(path: '/sitios',     builder: (_, __) => const SitiosScreen()),
+        GoRoute(path: '/usuarios',   builder: (_, __) => const UsuariosScreen()),
+        GoRoute(path: '/nueva-ficha',builder: (_, __) => const PetroglifoForm()),
       ],
     );
 
@@ -86,23 +59,25 @@ class PetroglifosMauleApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      // ConnectivityBanner envuelve TODA la app → banner rojo en sin conexión
+      builder: (context, child) => ConnectivityBanner(child: child ?? const SizedBox()),
     );
   }
 }
 
-// ══════════════════════════════════════════════
-// Shell del visor público con NavigationBar inferior
-// ══════════════════════════════════════════════
+// ─────────────────────────────────────────────
+// Shell del visor público
+// NavigationBar de 3 ítems en la parte inferior
+// ─────────────────────────────────────────────
 
 class _PublicShell extends StatelessWidget {
   final Widget child;
-
   const _PublicShell({required this.child});
 
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
-    final int idx = location.startsWith('/catalog') ? 1 : 0;
+    final int idx  = location.startsWith('/catalog') ? 1 : 0;
 
     return Scaffold(
       body: child,
@@ -110,7 +85,6 @@ class _PublicShell extends StatelessWidget {
         selectedIndex: idx,
         backgroundColor: Colors.white,
         elevation: 0,
-        shadowColor: Colors.transparent,
         indicatorColor: const Color(0xFF2D5A27).withOpacity(0.12),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         onDestinationSelected: (i) {
@@ -131,8 +105,7 @@ class _PublicShell extends StatelessWidget {
           ),
           NavigationDestination(
             icon: Icon(Icons.manage_accounts_outlined),
-            selectedIcon:
-                Icon(Icons.manage_accounts, color: Color(0xFF2D5A27)),
+            selectedIcon: Icon(Icons.manage_accounts, color: Color(0xFF2D5A27)),
             label: 'Administrar',
           ),
         ],

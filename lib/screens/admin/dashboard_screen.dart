@@ -5,6 +5,7 @@ import 'sitios_screen.dart';
 import 'usuarios_screen.dart';
 import 'reportes_screen.dart';
 import '../../services/database_service.dart';
+import '../../services/connectivity_service.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -21,6 +22,9 @@ class DashboardScreen extends StatelessWidget {
         title: const Text('Panel de Gestión'),
         backgroundColor: const Color(0xFF1A3A17),
         actions: [
+          // Indicador de conectividad en tiempo real
+          const ConnectivityIndicator(),
+          const SizedBox(width: 4),
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cerrar sesión',
