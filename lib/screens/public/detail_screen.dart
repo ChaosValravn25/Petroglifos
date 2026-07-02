@@ -237,7 +237,7 @@ class DetailScreen extends StatelessWidget {
         ),
       );
     }
-    await SharePlus.instance.share(ShareParams(text: texto));
+    await Share.share(texto);
   }
 
   Future<void> _descargarArchivos(BuildContext context) async {
